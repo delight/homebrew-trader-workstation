@@ -2,8 +2,8 @@ name: Cask livecheck and bump
 
 on:
   schedule:
-    # Run check every day at 04:00 UTC
-    - cron: "0 4 * * *"
+    # Run check every day at 01:00 UTC
+    - cron: "0 1 * * *"
   workflow_dispatch: # Allows manual workflow dispatch from the GitHub UI
 
 jobs:
