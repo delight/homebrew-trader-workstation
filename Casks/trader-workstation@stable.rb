@@ -13,11 +13,10 @@ cask "trader-workstation@stable" do
     url "https://download2.interactivebrokers.com/installers/tws/stable/version.json"
     regex(/"buildVersion"\s*:\s*"([^"]+)"/i)
   end
-    
-  conflicts_with cask: ["trader-workstation"]
 
   auto_updates true
   depends_on :macos
+  conflicts_with cask: ["trader-workstation"]
 
   installer script: {
     executable: "#{staged_path}/Trader Workstation Installer.app/Contents/MacOS/JavaApplicationStub",
