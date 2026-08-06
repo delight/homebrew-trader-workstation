@@ -1,7 +1,7 @@
 cask "trader-workstation@stable" do
   arch arm: "-arm", intel: "x-x64"
 
-  version "10.45.1i"
+  version "10.45.1j"
   sha256 :no_check
 
   url "https://download2.interactivebrokers.com/installers/tws/stable/tws-stable-macos#{arch}.dmg"
@@ -15,8 +15,8 @@ cask "trader-workstation@stable" do
   end
 
   auto_updates true
+  conflicts_with cask: "trader-workstation"
   depends_on :macos
-  conflicts_with cask: ["trader-workstation"]
 
   installer script: {
     executable: "#{staged_path}/Trader Workstation Installer.app/Contents/MacOS/JavaApplicationStub",
