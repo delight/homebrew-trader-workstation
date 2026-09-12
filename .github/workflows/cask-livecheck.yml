@@ -25,7 +25,7 @@ jobs:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_PAT }}
         run: |
           # Fetch the latest version via livecheck. It outputs nothing if no new version exists.
-          NEW_VERSION=$(brew livecheck trader-workstation@stable --newer-only --json | jq -r '.[0].version.latest // empty')
+          NEW_VERSION=$(  brew developer on && brew livecheck trader-workstation@stable --newer-only --json | jq -r '.[0].version.latest // empty')
 
           if [ -n "$NEW_VERSION" ]; then
             echo "New version found: $NEW_VERSION"
