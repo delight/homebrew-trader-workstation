@@ -9,10 +9,9 @@ on:
 jobs:
   bump:
     runs-on: macos-latest
-    # Permissions required for the bot to push commits and open pull requests
+    # Permissions required to push commits directly to master
     permissions:
       contents: write
-      pull-requests: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v7
@@ -25,17 +24,20 @@ jobs:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_PAT }}
         run: |
           # Fetch the latest version via livecheck. It outputs nothing if no new version exists.
-          NEW_VERSION=$(  brew developer on && brew livecheck trader-workstation@stable --newer-only --json | jq -r '.[0].version.latest // empty')
+          NEW_VERSION=$(brew developer on && brew livecheck trader-workstation@stable --newer-only --json | jq -r '.[0].version.latest // empty')
 
           if [ -n "$NEW_VERSION" ]; then
             echo "New version found: $NEW_VERSION"
-            
-            # Configure Git for the bot
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            
-            # Create the pull request
-            brew bump-cask-pr --no-browse --no-audit --version="$NEW_VERSION" trader-workstation@stable
+
+            # Configure Git author
+            git config --global user.name "Konstantinos Kostarellis"
+            git config --global user.email "delight@users.noreply.github.com"
+
+            # Update the cask file and commit locally without opening a PR
+            brew bump-cask-pr --write-only --commit --no-audit --version="$NEW_VERSION" trader-workstation@stable
+
+            # Push directly to master
+            git push origin HEAD:master
           else
             echo "No new version found. Everything is up to date."
           fi
